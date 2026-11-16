@@ -44,7 +44,10 @@ export async function requireRole(roles: AppRole[]) {
   if (!rows?.some((r) => roles.includes(r.role))) throw redirect({ to: "/requests" });
 }
 
-export const PORTALS: { role: AppRole[]; to: string; label: string }[] = [
+// Only portals that exist are listed. Seller, runner, courier, operations and admin portals are pending.
+export const PORTALS: { role: AppRole[]; to: "/requests"; label: string }[] = [
+  { role: ["customer"], to: "/requests", label: "My requests" },
+]; to: string; label: string }[] = [
   { role: ["customer"], to: "/requests", label: "My requests" },
   { role: ["seller"], to: "/seller", label: "Seller portal" },
   { role: ["runner"], to: "/runner", label: "Runner tasks" },

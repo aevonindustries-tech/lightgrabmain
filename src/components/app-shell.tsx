@@ -5,7 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { PORTALS, useMe } from "@/lib/session";
 import { Wordmark } from "./brand";
 
-export type NavItem = { to: string; label: string; exact?: boolean };
+export type NavItem = { to: "/requests" | "/requests/new" | "/account"; label: string; exact?: boolean };
 
 export function AppShell({ portal, nav, children }: { portal: string; nav: NavItem[]; children: ReactNode }) {
   const { data: me } = useMe();
@@ -33,7 +33,7 @@ export function AppShell({ portal, nav, children }: { portal: string; nav: NavIt
                 <select
                   className="h-8 rounded-sm border border-input bg-card px-2 text-sm"
                   value={portals.find((p) => p.label === portal)?.to ?? ""}
-                  onChange={(e) => navigate({ to: e.target.value })}
+                  onChange={(e) => navigate({ to: e.target.value as "/requests" })}
                 >
                   {!portals.some((p) => p.label === portal) && <option value="">Switch workspace</option>}
                   {portals.map((p) => (
