@@ -47,13 +47,6 @@ export async function requireRole(roles: AppRole[]) {
 // Only portals that exist are listed. Seller, runner, courier, operations and admin portals are pending.
 export const PORTALS: { role: AppRole[]; to: "/requests"; label: string }[] = [
   { role: ["customer"], to: "/requests", label: "My requests" },
-]; to: string; label: string }[] = [
-  { role: ["customer"], to: "/requests", label: "My requests" },
-  { role: ["seller"], to: "/seller", label: "Seller portal" },
-  { role: ["runner"], to: "/runner", label: "Runner tasks" },
-  { role: ["courier"], to: "/courier", label: "Courier deliveries" },
-  { role: ["operations", "admin", "super_admin"], to: "/ops", label: "Operations" },
-  { role: ["admin", "super_admin"], to: "/admin", label: "Administration" },
 ];
 
 export function errMsg(e: unknown) {

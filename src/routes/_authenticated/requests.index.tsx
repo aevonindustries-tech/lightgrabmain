@@ -6,7 +6,14 @@ import { StatusBadge } from "@/components/status-badge";
 import { CATEGORY_LABEL, STATUS_HELP } from "@/lib/order-status";
 
 export const Route = createFileRoute("/_authenticated/requests/")({
-  head: () => ({ meta: [{ title: "My requests — LightGrab" }] }),
+  head: () => ({ meta: [
+    { title: "My requests — LightGrab" },
+    { name: "description", content: "Review the status and updates for your LightGrab shopping requests in Oron." },
+    { property: "og:title", content: "My requests — LightGrab" },
+    { property: "og:description", content: "Review your LightGrab shopping requests in Oron." },
+    { property: "og:type", content: "website" },
+    { name: "twitter:card", content: "summary" },
+  ] }),
   component: Requests,
 });
 
@@ -15,7 +22,8 @@ function Requests() {
     queryKey: ["my-orders"],
     queryFn: async () => {
       const { data: { user } } = await supabase.auth.getUser();
-      const { data, error } = await supabase.from("orders").select("id, code, status, category, created_at").eq("customer_id", user!.id).order("created_at", { ascending: false });
+      if (!user) throw new Error("Sign in to view your requests.");
+      const { data, error } = await supabase.from("orders").select("id, code, status, category, created_at").eq("customer_id", user.id).order("created_at", { ascending: false });
       if (error) throw error;
       return data;
     },

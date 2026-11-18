@@ -8,8 +8,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
+const RETURN_PATHS = ["/requests", "/requests/new", "/account"] as const;
+
 export const Route = createFileRoute("/auth")({
-  validateSearch: (s: Record<string, unknown>) => ({ redirect: typeof s.redirect === "string" && s.redirect.startsWith("/") ? s.redirect : undefined }),
+  validateSearch: (s: Record<string, unknown>) => ({ redirect: RETURN_PATHS.find((path) => path === s.redirect) }),
   head: () => ({ meta: [{ title: "Sign in — LightGrab" }, { name: "description", content: "Sign in or create a LightGrab account." }, { property: "og:title", content: "Sign in — LightGrab" }, { property: "og:description", content: "Sign in or create a LightGrab account." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }] }),
   component: AuthPage,
 });
@@ -17,6 +19,7 @@ export const Route = createFileRoute("/auth")({
 const schema = z.object({ email: z.string().trim().email("Enter a valid email").max(255), password: z.string().min(8, "At least 8 characters").max(72) });
 
 function AuthPage() {
+  const { redirect: redirectTo } = Route.useSearch();
   const [mode, setMode] = useState<"in" | "up">("in");
   const [busy, setBusy] = useState(false);
   const [sent, setSent] = useState(false);
@@ -31,7 +34,7 @@ function AuthPage() {
       const { error } = await supabase.auth.signInWithPassword(parsed.data);
       setBusy(false);
       if (error) return toast.error(error.message);
-      navigate({ to: "/requests" });
+      navigate({ to: redirectTo ?? "/requests" });
     } else {
       const name = String(f.get("name") ?? "").trim().slice(0, 120);
       const { error } = await supabase.auth.signUp({ ...parsed.data, options: { emailRedirectTo: window.location.origin, data: { full_name: name } } });

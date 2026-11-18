@@ -10,7 +10,14 @@ import { errMsg, useMe } from "@/lib/session";
 import { ROLE_LABEL } from "@/lib/order-status";
 
 export const Route = createFileRoute("/_authenticated/account")({
-  head: () => ({ meta: [{ title: "Account — LightGrab" }] }),
+  head: () => ({ meta: [
+    { title: "Account — LightGrab" },
+    { name: "description", content: "Manage your LightGrab contact and delivery details." },
+    { property: "og:title", content: "Account — LightGrab" },
+    { property: "og:description", content: "Manage your LightGrab contact and delivery details." },
+    { property: "og:type", content: "website" },
+    { name: "twitter:card", content: "summary" },
+  ] }),
   component: Account,
 });
 
