@@ -11,7 +11,7 @@ import { Label } from "@/components/ui/label";
 const RETURN_PATHS = ["/requests", "/requests/new", "/account"] as const;
 
 export const Route = createFileRoute("/auth")({
-  validateSearch: (s: Record<string, unknown>) => ({ redirect: RETURN_PATHS.find((path) => path === s.redirect) }),
+  validateSearch: z.object({ redirect: z.enum(RETURN_PATHS).optional() }),
   head: () => ({ meta: [{ title: "Sign in — LightGrab" }, { name: "description", content: "Sign in or create a LightGrab account." }, { property: "og:title", content: "Sign in — LightGrab" }, { property: "og:description", content: "Sign in or create a LightGrab account." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }] }),
   component: AuthPage,
 });
@@ -28,18 +28,27 @@ function AuthPage() {
     e.preventDefault();
     const f = new FormData(e.currentTarget);
     const parsed = schema.safeParse({ email: f.get("email"), password: f.get("password") });
-    if (!parsed.success) return toast.error(parsed.error.issues[0].message);
+    if (!parsed.success) {
+      toast.error(parsed.error.issues[0]?.message ?? "Check your email and password.");
+      return;
+    }
     setBusy(true);
     if (mode === "in") {
       const { error } = await supabase.auth.signInWithPassword(parsed.data);
       setBusy(false);
-      if (error) return toast.error(error.message);
+      if (error) {
+        toast.error(error.message);
+        return;
+      }
       navigate({ to: redirectTo ?? "/requests" });
     } else {
       const name = String(f.get("name") ?? "").trim().slice(0, 120);
       const { error } = await supabase.auth.signUp({ ...parsed.data, options: { emailRedirectTo: window.location.origin, data: { full_name: name } } });
       setBusy(false);
-      if (error) return toast.error(error.message);
+      if (error) {
+        toast.error(error.message);
+        return;
+      }
       setSent(true);
     }
   }

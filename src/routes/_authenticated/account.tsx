@@ -30,7 +30,10 @@ function Account() {
     const f = new FormData(e.currentTarget);
     const v = (k: string) => String(f.get(k) ?? "").trim() || null;
     const { error } = await supabase.from("profiles").update({ full_name: v("full_name") ?? "", phone: v("phone"), default_area: v("default_area"), default_address: v("default_address") }).eq("id", me.user.id);
-    if (error) return toast.error(errMsg(error));
+    if (error) {
+      toast.error(errMsg(error));
+      return;
+    }
     toast.success("Account saved");
     qc.invalidateQueries({ queryKey: ["me"] });
   }
