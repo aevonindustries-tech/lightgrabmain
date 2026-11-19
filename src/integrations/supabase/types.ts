@@ -67,6 +67,42 @@ export type Database = {
         }
         Relationships: []
       }
+      intake_submissions: {
+        Row: {
+          application_type: string
+          created_at: string
+          email: string
+          full_name: string
+          id: string
+          lga: string
+          phone: string
+          state: string
+          status: string
+        }
+        Insert: {
+          application_type: string
+          created_at?: string
+          email: string
+          full_name: string
+          id?: string
+          lga: string
+          phone: string
+          state: string
+          status?: string
+        }
+        Update: {
+          application_type?: string
+          created_at?: string
+          email?: string
+          full_name?: string
+          id?: string
+          lga?: string
+          phone?: string
+          state?: string
+          status?: string
+        }
+        Relationships: []
+      }
       order_communications: {
         Row: {
           author_id: string
@@ -374,6 +410,7 @@ export type Database = {
       platform_settings: {
         Row: {
           accepting_requests: boolean
+          countdown_enabled: boolean
           id: boolean
           launch_at: string | null
           launch_live: boolean
@@ -386,6 +423,7 @@ export type Database = {
         }
         Insert: {
           accepting_requests?: boolean
+          countdown_enabled?: boolean
           id?: boolean
           launch_at?: string | null
           launch_live?: boolean
@@ -398,6 +436,7 @@ export type Database = {
         }
         Update: {
           accepting_requests?: boolean
+          countdown_enabled?: boolean
           id?: boolean
           launch_at?: string | null
           launch_live?: boolean
@@ -574,6 +613,14 @@ export type Database = {
           _seller: string
           _status: Database["public"]["Enums"]["seller_status"]
         }
+        Returns: undefined
+      }
+      admin_update_countdown: {
+        Args: { _enabled: boolean }
+        Returns: undefined
+      }
+      admin_update_intake_status: {
+        Args: { _status: string; _submission: string }
         Returns: undefined
       }
       admin_update_settings: {
