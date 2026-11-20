@@ -40,7 +40,7 @@ function HowItWorks() {
           <p><strong className="text-foreground">Substitutes.</strong> If an item is unavailable, the runner proposes a substitute and you approve or reject it before your order is packed.</p>
           <p><strong className="text-foreground">Payment.</strong> Pay on delivery. Online payment and wallets are not available yet.</p>
         </div>
-        <Link to="/requests/new" className="mt-10 inline-flex h-11 items-center rounded-sm bg-signal px-6 font-semibold text-signal-foreground hover:bg-signal/85">Start a shopping list</Link>
+        <Link to="/" hash="waitlist" className="mt-10 inline-flex h-11 items-center rounded-sm bg-signal px-6 font-semibold text-signal-foreground hover:bg-signal/85">Join the early list</Link>
       </main>
       <PublicFooter />
     </div>

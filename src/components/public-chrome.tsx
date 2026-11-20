@@ -10,11 +10,10 @@ export function PublicHeader() {
         <Wordmark />
         <nav aria-label="Main" className="ml-auto flex items-center gap-5 text-sm">
           <Link to="/how-it-works" className="hidden hover:underline sm:inline" activeProps={{ className: "underline" }}>How it works</Link>
-          <Link to="/partners" className="hidden hover:underline sm:inline" activeProps={{ className: "underline" }}>Partner with us</Link>
+          <Link to="/runners" className="hidden hover:underline sm:inline" activeProps={{ className: "underline" }}>Become a runner</Link>
+          <Link to="/courier" className="hidden hover:underline sm:inline" activeProps={{ className: "underline" }}>Become a courier</Link>
           {me ? (
             <Link to="/requests" className="inline-flex h-9 items-center rounded-sm bg-primary px-4 font-medium text-primary-foreground hover:bg-primary/90">My requests</Link>
-          ) : (
-            <Link to="/auth" className="inline-flex h-9 items-center rounded-sm border-[1.5px] border-rule px-4 font-medium hover:bg-foreground hover:text-background">Sign in</Link>
           )}
         </nav>
       </div>
@@ -33,7 +32,8 @@ export function PublicFooter() {
         <div className="space-y-2">
           <p className="eyebrow">Service</p>
           <p><Link to="/how-it-works" className="hover:underline">How it works</Link></p>
-          <p><Link to="/partners" className="hover:underline">Sellers, runners & couriers</Link></p>
+          <p><Link to="/runners" className="hover:underline">Become a runner</Link></p>
+          <p><Link to="/courier" className="hover:underline">Become a courier</Link></p>
         </div>
         <div className="space-y-2">
           <p className="eyebrow">Payments</p>

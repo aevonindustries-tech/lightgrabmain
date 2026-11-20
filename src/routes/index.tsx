@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import hero from "@/assets/oron-market.jpg";
 import { PublicFooter, PublicHeader } from "@/components/public-chrome";
 import { Countdown } from "@/components/countdown";
+import { IntakeForm } from "@/components/intake-form";
 import { settingsQuery } from "@/lib/settings";
 
 export const Route = createFileRoute("/")({
@@ -41,7 +42,7 @@ function Index() {
               <p className="font-mono text-[11px] uppercase tracking-[0.14em] opacity-75">Pre-launch · {s.service_area}</p>
               <p className="mt-1 text-sm">{s.prelaunch_message}</p>
             </div>
-            {s.launch_at && new Date(s.launch_at).getTime() > Date.now() && <Countdown to={s.launch_at} />}
+            {s.countdown_enabled && s.launch_at && new Date(s.launch_at).getTime() > Date.now() && <Countdown to={s.launch_at} />}
           </div>
         </div>
       )}
@@ -57,9 +58,7 @@ function Index() {
             Tell us what you need and how much. We price it with trusted local sellers, send a runner to buy it, and a courier brings it to your door.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <Link to="/requests/new" className="inline-flex h-11 items-center rounded-sm bg-signal px-6 font-semibold text-signal-foreground hover:bg-signal/85">
-              Start a shopping list
-            </Link>
+            <span className="inline-flex min-h-11 items-center border border-border px-4 py-2 text-sm text-muted-foreground" aria-label="Android app download coming soon">Android app download coming soon</span>
             <Link to="/how-it-works" className="inline-flex h-11 items-center rounded-sm border-[1.5px] border-rule px-6 font-medium hover:bg-foreground hover:text-background">
               How it works
             </Link>
@@ -132,6 +131,44 @@ function Index() {
           ))}
         </div>
         <p className="mt-3 text-sm text-muted-foreground">There is no fixed catalogue — you write what you need and we tell you what's possible.</p>
+      </section>
+
+      <section className="mx-auto mt-24 max-w-6xl px-4 sm:px-6">
+        <div className="rule-top grid gap-8 pt-8 md:grid-cols-[1fr_2fr]">
+          <div>
+            <p className="eyebrow">Built for everyday Oron</p>
+            <h2 className="mt-3 text-3xl font-semibold">A market trip, without the trip.</h2>
+          </div>
+          <div className="grid gap-8 sm:grid-cols-2">
+            <div>
+              <h3 className="font-semibold">Skip the back-and-forth</h3>
+              <p className="mt-2 text-sm text-muted-foreground">Share one clear list with quantities and details. We check what is available and send you the cost before anyone shops.</p>
+            </div>
+            <div>
+              <h3 className="font-semibold">Know what happens next</h3>
+              <p className="mt-2 text-sm text-muted-foreground">Your request moves from quote to shopping to delivery, with updates along the way. You approve the quote before the team buys anything.</p>
+            </div>
+            <div>
+              <h3 className="font-semibold">Local shops, one request</h3>
+              <p className="mt-2 text-sm text-muted-foreground">Ask for market goods, meals, baked goods, wholesale items and other local products without searching a fixed catalogue.</p>
+            </div>
+            <div>
+              <h3 className="font-semibold">Pay when it arrives</h3>
+              <p className="mt-2 text-sm text-muted-foreground">Online payments are not available yet. For now, pay the quote you accepted when your order reaches you.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="waitlist" className="mx-auto mt-24 max-w-6xl px-4 sm:px-6">
+        <div className="rule-top grid gap-8 pt-8 md:grid-cols-[1fr_1.25fr]">
+          <div>
+            <p className="eyebrow">Join the early list</p>
+            <h2 className="mt-3 text-3xl font-semibold">Why join LightGrab?</h2>
+            <p className="mt-3 max-w-md text-sm text-muted-foreground">Be among the first to hear when local shopping and doorstep delivery are ready in Oron.</p>
+          </div>
+          <IntakeForm type="waitlist" />
+        </div>
       </section>
 
       <PublicFooter />

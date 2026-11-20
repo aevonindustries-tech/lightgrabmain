@@ -35,7 +35,7 @@ export function hasPerm(me: { roles: AppRole[]; permissions: Permission[] } | nu
 /** Route guard for role portals. The database (RLS + RPC checks) is the real enforcement. */
 export async function requireRole(roles: AppRole[]) {
   const { data: { user } } = await supabase.auth.getUser();
-  if (!user) throw redirect({ to: "/auth" });
+  if (!user) throw redirect({ to: "/auth", search: { redirect: undefined } });
   const [{ data: rows }, { data: profile }] = await Promise.all([
     supabase.from("user_roles").select("role").eq("user_id", user.id),
     supabase.from("profiles").select("status").eq("id", user.id).maybeSingle(),
