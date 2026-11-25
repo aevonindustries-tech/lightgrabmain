@@ -58,7 +58,7 @@ export function WorkerSignIn({ kind }: { kind: "runner" | "courier" }) {
           <div><Label htmlFor={`${kind}-signin-password`}>Password</Label><Input id={`${kind}-signin-password`} name="password" type="password" autoComplete="current-password" required /></div>
           <Button type="submit" className="w-full" disabled={busy}>{busy ? "Signing in…" : title}</Button>
         </form>}
-        <p className="mt-5 text-sm text-muted-foreground">Need to apply? <Link to={kind === "runner" ? "/runners/register" : "/courier/register"} className="underline">{kind === "runner" ? "Runner Registration" : "Courier Registration"}</Link></p>
+        <p className="mt-5 text-sm text-muted-foreground">Need to apply? <Link to={kind === "runner" ? "/runners" : "/courier"} className="underline">{kind === "runner" ? "Runner Registration" : "Courier Registration"}</Link></p>
       </div>
     </main>
   );

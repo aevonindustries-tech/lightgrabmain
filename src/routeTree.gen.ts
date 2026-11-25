@@ -12,8 +12,10 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as CourierRouteImport } from './routes/courier'
 import { Route as HowItWorksRouteImport } from './routes/how-it-works'
 import { Route as PartnersRouteImport } from './routes/partners'
+import { Route as RunnersRouteImport } from './routes/runners'
 import { Route as AuthenticatedAccountRouteImport } from './routes/_authenticated/account'
 import { Route as AuthenticatedRequestsIndexRouteImport } from './routes/_authenticated/requests.index'
 import { Route as AuthenticatedRequestsNewRouteImport } from './routes/_authenticated/requests.new'
@@ -32,6 +34,11 @@ const AuthRoute = AuthRouteImport.update({
   path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CourierRoute = CourierRouteImport.update({
+  id: '/courier',
+  path: '/courier',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const HowItWorksRoute = HowItWorksRouteImport.update({
   id: '/how-it-works',
   path: '/how-it-works',
@@ -40,6 +47,11 @@ const HowItWorksRoute = HowItWorksRouteImport.update({
 const PartnersRoute = PartnersRouteImport.update({
   id: '/partners',
   path: '/partners',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RunnersRoute = RunnersRouteImport.update({
+  id: '/runners',
+  path: '/runners',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedAccountRoute = AuthenticatedAccountRouteImport.update({
@@ -63,8 +75,10 @@ const AuthenticatedRequestsNewRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/courier': typeof CourierRoute
   '/how-it-works': typeof HowItWorksRoute
   '/partners': typeof PartnersRoute
+  '/runners': typeof RunnersRoute
   '/account': typeof AuthenticatedAccountRoute
   '/requests/new': typeof AuthenticatedRequestsNewRoute
   '/requests/': typeof AuthenticatedRequestsIndexRoute
@@ -72,8 +86,10 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/courier': typeof CourierRoute
   '/how-it-works': typeof HowItWorksRoute
   '/partners': typeof PartnersRoute
+  '/runners': typeof RunnersRoute
   '/account': typeof AuthenticatedAccountRoute
   '/requests/new': typeof AuthenticatedRequestsNewRoute
   '/requests': typeof AuthenticatedRequestsIndexRoute
@@ -83,8 +99,10 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
+  '/courier': typeof CourierRoute
   '/how-it-works': typeof HowItWorksRoute
   '/partners': typeof PartnersRoute
+  '/runners': typeof RunnersRoute
   '/_authenticated/account': typeof AuthenticatedAccountRoute
   '/_authenticated/requests/new': typeof AuthenticatedRequestsNewRoute
   '/_authenticated/requests/': typeof AuthenticatedRequestsIndexRoute
@@ -94,8 +112,10 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/auth'
+    | '/courier'
     | '/how-it-works'
     | '/partners'
+    | '/runners'
     | '/account'
     | '/requests/new'
     | '/requests/'
@@ -103,8 +123,10 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/auth'
+    | '/courier'
     | '/how-it-works'
     | '/partners'
+    | '/runners'
     | '/account'
     | '/requests/new'
     | '/requests'
@@ -113,8 +135,10 @@ export interface FileRouteTypes {
     | '/'
     | '/_authenticated'
     | '/auth'
+    | '/courier'
     | '/how-it-works'
     | '/partners'
+    | '/runners'
     | '/_authenticated/account'
     | '/_authenticated/requests/new'
     | '/_authenticated/requests/'
@@ -124,8 +148,10 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
+  CourierRoute: typeof CourierRoute
   HowItWorksRoute: typeof HowItWorksRoute
   PartnersRoute: typeof PartnersRoute
+  RunnersRoute: typeof RunnersRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -151,6 +177,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/courier': {
+      id: '/courier'
+      path: '/courier'
+      fullPath: '/courier'
+      preLoaderRoute: typeof CourierRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/how-it-works': {
       id: '/how-it-works'
       path: '/how-it-works'
@@ -163,6 +196,13 @@ declare module '@tanstack/react-router' {
       path: '/partners'
       fullPath: '/partners'
       preLoaderRoute: typeof PartnersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/runners': {
+      id: '/runners'
+      path: '/runners'
+      fullPath: '/runners'
+      preLoaderRoute: typeof RunnersRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/account': {
@@ -208,8 +248,10 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
+  CourierRoute: CourierRoute,
   HowItWorksRoute: HowItWorksRoute,
   PartnersRoute: PartnersRoute,
+  RunnersRoute: RunnersRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

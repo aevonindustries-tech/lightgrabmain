@@ -5,6 +5,7 @@ import { PublicFooter, PublicHeader } from "@/components/public-chrome";
 import { Countdown } from "@/components/countdown";
 import { IntakeForm } from "@/components/intake-form";
 import { settingsQuery } from "@/lib/settings";
+import { isPublicSiteOpen } from "@/lib/launch-visibility";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -28,25 +29,58 @@ const sample = [
   ["Garden egg", "10 pieces", "₦—"],
 ];
 
+type LaunchSettings = {
+  service_area?: string | null;
+  prelaunch_message?: string | null;
+  countdown_enabled?: boolean | null;
+  launch_at?: string | null;
+} | null | undefined;
+
+function Prelaunch({ settings }: { settings: LaunchSettings }) {
+  const launchAt = settings?.launch_at;
+  const showCountdown = settings?.countdown_enabled === true && launchAt && new Date(launchAt).getTime() > Date.now();
+
+  return (
+    <div className="flex min-h-screen flex-col">
+      <PublicHeader prelaunch />
+      <main className="mx-auto flex w-full max-w-5xl flex-1 flex-col justify-center px-4 py-14 sm:px-6">
+        <p className="eyebrow">Pre-launch · {settings?.service_area ?? "Oron, Akwa Ibom"}</p>
+        <h1 className="mt-4 max-w-3xl text-4xl font-semibold sm:text-5xl">LightGrab is getting ready to serve Oron.</h1>
+        <p className="mt-5 max-w-2xl text-lg text-muted-foreground">
+          {settings?.prelaunch_message ?? "Public shopping requests are not open yet. We’ll share launch updates as the service gets ready."}
+        </p>
+        {showCountdown && launchAt && <div className="mt-6"><Countdown to={launchAt} /></div>}
+        <div className="rule-top mt-10 grid gap-8 pt-6 sm:grid-cols-2">
+          <section>
+            <p className="eyebrow">Market team</p>
+            <h2 className="mt-2 text-xl font-semibold">Shop with us in Oron</h2>
+            <p className="mt-2 text-sm text-muted-foreground">Apply to source and prepare customers’ requested goods from local markets.</p>
+            <Link to="/runners" className="mt-4 inline-flex h-10 items-center border border-rule px-4 text-sm font-medium hover:bg-foreground hover:text-background">Runner opportunities</Link>
+          </section>
+          <section>
+            <p className="eyebrow">Delivery team</p>
+            <h2 className="mt-2 text-xl font-semibold">Deliver with LightGrab</h2>
+            <p className="mt-2 text-sm text-muted-foreground">Apply to deliver prepared requests to customers across Oron.</p>
+            <Link to="/courier" className="mt-4 inline-flex h-10 items-center border border-rule px-4 text-sm font-medium hover:bg-foreground hover:text-background">Courier opportunities</Link>
+          </section>
+        </div>
+      </main>
+      <footer className="rule-top px-4 py-5 text-center text-xs text-muted-foreground sm:px-6">
+        © {new Date().getFullYear()} Aevon Industries · Oron, Akwa Ibom
+      </footer>
+    </div>
+  );
+}
+
 function Index() {
   const { data: s } = useQuery(settingsQuery);
-  const live = s?.launch_live ?? false;
+  const live = isPublicSiteOpen(s?.launch_live);
+
+  if (!live) return <Prelaunch settings={s} />;
 
   return (
     <div>
       <PublicHeader />
-      {!live && s && (
-        <div className="bg-primary text-primary-foreground">
-          <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-4 py-4 sm:px-6">
-            <div>
-              <p className="font-mono text-[11px] uppercase tracking-[0.14em] opacity-75">Pre-launch · {s.service_area}</p>
-              <p className="mt-1 text-sm">{s.prelaunch_message}</p>
-            </div>
-            {s.countdown_enabled && s.launch_at && new Date(s.launch_at).getTime() > Date.now() && <Countdown to={s.launch_at} />}
-          </div>
-        </div>
-      )}
-
       <section className="mx-auto grid max-w-6xl gap-10 px-4 pt-12 sm:px-6 lg:grid-cols-[1.05fr_1fr] lg:gap-14 lg:pt-16">
         <div className="flex flex-col justify-center">
           <p className="eyebrow">Oron · Akwa Ibom</p>

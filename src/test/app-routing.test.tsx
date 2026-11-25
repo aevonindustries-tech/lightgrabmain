@@ -22,4 +22,11 @@ describe("App routing", () => {
 
     expect(matches.at(-1)?.routeId).toBe("/_authenticated/requests/new");
   });
+
+  it("keeps runner and courier applications on distinct public pages", () => {
+    const router = createRouter({ routeTree, context: { queryClient: new QueryClient() } });
+
+    expect(router.matchRoutes("/runners").at(-1)?.routeId).toBe("/runners");
+    expect(router.matchRoutes("/courier").at(-1)?.routeId).toBe("/courier");
+  });
 });

@@ -2,19 +2,19 @@ import { Link } from "@tanstack/react-router";
 import { Wordmark } from "./brand";
 import { useMe } from "@/lib/session";
 
-export function PublicHeader() {
+export function PublicHeader({ prelaunch = false }: { prelaunch?: boolean } = {}) {
   const { data: me } = useMe();
   return (
     <header className="rule-bottom">
       <div className="mx-auto flex max-w-6xl items-center gap-6 px-4 py-4 sm:px-6">
         <Wordmark />
         <nav aria-label="Main" className="ml-auto flex items-center gap-5 text-sm">
-          <Link to="/how-it-works" className="hidden hover:underline sm:inline" activeProps={{ className: "underline" }}>How it works</Link>
+          {!prelaunch && <Link to="/how-it-works" className="hidden hover:underline sm:inline" activeProps={{ className: "underline" }}>How it works</Link>}
           <Link to="/runners" className="hidden hover:underline sm:inline" activeProps={{ className: "underline" }}>Become a runner</Link>
           <Link to="/courier" className="hidden hover:underline sm:inline" activeProps={{ className: "underline" }}>Become a courier</Link>
           {me ? (
             <Link to="/requests" className="inline-flex h-9 items-center rounded-sm bg-primary px-4 font-medium text-primary-foreground hover:bg-primary/90">My requests</Link>
-          )}
+          ) : null}
         </nav>
       </div>
     </header>
